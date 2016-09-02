@@ -1,20 +1,15 @@
-- name: Drew's Special
-  toppings:
-    - name: Cheese
-      price: 1.00
-    - name: Tofurkey
-      price: 6.50
-- name: Nick's Special
-  toppings:
-    - name: Dairy Free Cheese
-      price: 0.50
-    - name: Chicken
-      price: 2.00
-    - name: Left Over Stew
-      price: 4.00
-- name: Soylent Goodness
-  toppings:
-    - name: Soy Cheese
-      price: 0.00
-    - name: Soylent
-      price: 2.50
+- puzzle: Suppose today is Thursday. What day of the week will it be 19 days from today?
+  answer: a.Tuesday
+  options: a.Tuesday,b.Monday,c.Saturday
+- puzzle: What is the factorial of 5?
+  answer: d.120
+  options: a.126,b.102,c.130,d.120
+- puzzle: 
+  answer: 
+  options: 
+- puzzle: 
+  answer: 
+  options: 
+- puzzle: 
+  answer: 
+  options: 

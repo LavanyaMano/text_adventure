@@ -1,16 +1,12 @@
 import os
 import sys
 import copy
-from datetime import datetime
 import yaml 
 from player import get_player_details
 from rooms import maze_size
 
 
-	"""pizza_dict["toppings"]= toppings
-		filepath = "./orders/{}.yml".format(datetime.now())
-		with open(filepath,'w') as order_file:
-			yaml.dump(order, order_file)"""
+
 
 
 
