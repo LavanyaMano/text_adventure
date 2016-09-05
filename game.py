@@ -2,10 +2,45 @@ import os
 import sys
 import copy
 import yaml 
-from player import get_player_details
-from rooms import maze_size
+# from player import get_player_details
+from rooms import Room
 
+def play_game():
+	print("You can decide the level you want to play. Default level is 0")
+	p_level=int(input("Enter the level you want: "))
+	p_room = Room(p_level)
 
+	print("You are about to play in maze craze level - {}".format(p_level))
+	maze_disp = p_room.maze_size()
+	for i in maze_disp:
+		print("\t".join(i))
+	print ("Press e for entering the maze")
+	print ("Press i for checking the inventory")
+	print("Press x for exiting the game")
+	user = input(" >  ")
+
+	if user == "e":
+		p_step= p_room.maze_setup()
+		p_room.display_maze(p_step)
+		while True:
+			print("Moves :\nr - right\nl - left\nu - up\nd - down\nk - keys\nw -weapons\ng -lifeline\n x - exit")
+			p_input = input("> ")
+			if p_input == "r":
+				p_step=p_room.move_right(p_step)
+				p_room.display_maze(p_step)
+			elif p_input == "l":
+				p_step=p_room.move_left(p_step)
+				p_room.display_maze(p_step)
+			elif p_input == "u":
+				p_step=p_room.move_up(p_step)
+				p_room.display_maze(p_step)
+			elif p_input == "d":
+				p_step=p_room.move_down(p_step)
+				p_room.display_maze(p_step)
+			elif p_input == "x":
+				sys.exit()
+			else:
+				print("Give correct choice")
 
 
 
@@ -19,51 +54,17 @@ def main():
 	You have life lines to get genie to help."""
 	print("Welcome to the Maze Craze game")
 	print("Would you like to play this game: Y/N")
-	choice = lower(input("> "))
+	choice = (input("> ")).lower()
 
-	try:
-		if choice == "Y":
-			play = Game()
-		else:
+
+	if choice == "y":
+		play_game()
+	else:
 		print("Exiting the Maze Craze game!")
 		sys.exit(0)
 
-	except FileNotFoundError:
-		print("WARNING: Could not find premade file, no premade pizzas")
-
-class Game(object):
-	"""docstring for Game"""
-	print("You can decide the level you want to play. Default level is 0")
-	p_level=input("Enter the level you want: ")
-	if p_level.isdigit():
-		p_room = Room(p_level)
-	else:
-		print("Taking you to level 1")
-		p_room = Room()
-		
-
-	if (choice=="Y"):
-		print("Entering the Maze....")
-
-		#####Initializing an instance of class Inventory
-		####This will initialize the keys, weapons and the 
-		#####Food values
-		inv1 = Inventory(10)
-
-		#####Calling the initialize value function
-		keys, weapons, food = inv1.initialize()
-		print('You have ->'+str(keys)+' keys,'+str(weapons)+' weapons and '+str(food)+' meals')
-		
-		#####Creating the instance of the Room class
-		room1 = Room(number="1")
 
 
-		monster_value = room1.check_in()
-	#	food = inv1.remove(food)
-		if (monster_value == "monster"):
-			weapons = inv1.remove(weapons)
-		
-		print('Now you have ->'+str(keys)+' keys,'+str(weapons)+' weapons and '+str(food)+' meals')
 
 
 if __name__=="__main__":

@@ -1,121 +1,61 @@
-from menus import get_menu_selection, dislay_selection_error
-from toppings import Topping
+import yaml
+import sys
+import random 
+from rooms import Room
+from inventory import Inventory
 
-class Pizza():
-	MENU_ITEMS = (
-		"Menu Selection:",
-		"1: Add Toppings",
-		"2: Display Toppings",
-		"3: Remove Toppings",
-		"4: Add Pizza to cart",
-		"0: Cancel",
-		)
+inv =  Inventory()
+g_room = Room()
 
-	AVAILABLE_TOPPINGS = (
-		Topping("Cheese"),
-		Topping("Pepperoni", 2.00),
-		Topping(name="Sausage", price=2.50),
-		)
-	def __init__(self, base_price=5.00):
-		self.toppings = []
-		self.base_price = base_price   
+class Genie(object):
+    """docstring for Genie"""
+    def __init__(self):
+        self.question = []
+        self.puzzle_list = []
+        with open(data,'r') as puzzle_file:
+            self.puzzle_list = yaml.load(puzzle_file)
 
-	@classmethod
-	def make_pizza(cls, base_pizza = None):
-		"""
-		Return a new pizza based on what is entered by the user
-		"""
-		# cls == Pizza
-		pizza = base_pizza or cls()
+    def genie_ask(self):
+        user=input("Genie: Are you ready to answer my question? Y/N >  ")
+        if user=="Y":
+            question = random.choice(puzzle_list)
+            print(question["puzzle"])
+            print(question["options"])
+            answer=question["answer"]
+            user_answer = input("Enter your answer: ")
+            if (user_answer==answer):
+                print("Correct.")
+                self.genie_gift()
+            else:
+                print("Wrong answer")
 
-		while True:
-			menu_selection = get_menu_selection(pizza.MENU_ITEMS)
-			if menu_selection == "0":
-				return None
-			elif menu_selection == "1":
-				pizza.add_toppings()
-			elif menu_selection == "2":
-				pizza.display_toppings()
-			elif menu_selection == "3":
-				pizza.remove_toppings()
-			elif menu_selection == "4":
-				return pizza
-			else:
-				dislay_selection_error(menu_selection)
-		return None
+    def genie_gift(self):
+        a = random.randrange(6)
+        if a == 1:
+            print(" Excellent.. I am impressed...")
+            print("I will show you the exit")
+            b=g_room.result()
+            for indx, i in enumerate(b):
+                for jindx, j in enumerate(i):
+                    if j == "P":
+                        pass
+                    else:
+                        b[indx][jindx] = '-'
+            for i in b:
+                print(" ".join(i))
 
-	
-	def get_total_price(self):
-		return self.base_price + sum(topping.price for topping in self.toppings)
-
-
-	def get_toppings_menu_list(self,toppings):
-		menu_items = [
-			"{}: {}". format(index + 1, topping)
-			for index, topping in enumerate(toppings)]
-		menu_items.append("0: Exit")
-		return menu_items
-
-	def is_valid_topping(self, selection, toppings=AVAILABLE_TOPPINGS):
-		return(selection.isdigit()
-			 and int(selection)-1 < len(self.AVAILABLE_TOPPINGS))
-
-
-	def add_toppings(self):
-		while True:
-			menu_selection = get_menu_selection(
-				self.get_toppings_menu_list(self.AVAILABLE_TOPPINGS))
-			if menu_selection == "0":
-				break
-			elif self.is_valid_topping(menu_selection):
-				topping = self.AVAILABLE_TOPPINGS[int(menu_selection)-1]
-				self.toppings.append(topping)
-				print("\n {} added to the pizza!". format(topping))
-			else:
-				dislay_selection_error(menu_selection)
-	def display_toppings(self):
-			if len(self.toppings) == 0:
-				print ("No toppings")
-			else:
-				for topping in self.toppings:
-					print(topping)
-			print ("_"*20)
-			print("TOTAL.PRICE: $ {:,.2f}".format(self.get_total_price()))
-
-	def remove_toppings(self):
-		while True:
-			menu_selection = get_menu_selection(self.get_toppings_menu_list(self.toppings))
-
-			if menu_selection == "0":
-				break
-			elif self.is_valid_topping(menu_selection,self.toppings):
-				topping = self.toppings[int(menu_selection)-1]
-				self.toppings.remove(topping)
-				print("\n removed from the pizza!". format(topping))
-			else:
-				dislay_selection_error(menu_selection)
-	def __str__(self):
-		return "Custom pizza - ({} toppings) $ {:,.2f}".format(len(self.toppings),self.get_total_price())
-		
-
-
-class PremadePizza(Pizza):
-	def __init__(self,name="Premade", base_price=6.00, toppings=None):
-		super().__init__(base_price=base_price)
-		self.name = name
-		self.base_price= base_price
-		self.toppings=toppings or []
-	@classmethod
-	def load_from_dict(cls, pizza_dict):
-		# cls == PremadePizza()
-		toppings = []
-		for topping_dict in pizza_dict["toppings"]:
-			topping = Topping(name=topping_dict["name"],
-				price=topping_dict["price"])
-			toppings.append(topping)
-		pizza = cls(name=pizza_dict["name"], toppings=toppings)
-		return pizza
-	def __str__(self):
-		return "{} - ({} toppings) ${:,.2f}".format(self.name, len(self.toppings),self.get_total_price())
-		
+        elif a == 2:
+                print("Great.. I will show you where the Monsters are hidding.")
+        elif a == 3:
+            print("I will give you two extra keys")
+            inv.add("keys")
+            inv.add("keys")
+        elif a == 4:
+            print("I will give you two extra weapons")
+            inv.add(weapons=2)
+        elif a == 5:
+            print("I will give you 5 extra moves")
+            inv.add(moves = 5)
+        else:
+            print("Sorry. I dont have any gift for you.")
 

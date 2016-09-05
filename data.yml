@@ -1,8 +1,8 @@
 - puzzle: Suppose today is Thursday. What day of the week will it be 19 days from today?
-  answer: a.Tuesday
+  answer: a
   options: a.Tuesday,b.Monday,c.Saturday
 - puzzle: What is the factorial of 5?
-  answer: d.120
+  answer: d
   options: a.126,b.102,c.130,d.120
 - puzzle: 
   answer: 
