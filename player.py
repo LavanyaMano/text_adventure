@@ -1,6 +1,6 @@
 import os
 import yaml
-from datetime import date
+from datetime import datetime
 from inventory import Inventory
 inv = Inventory()
 class Player():
@@ -15,7 +15,7 @@ class Player():
 						"Score":self.player_score}
 		if not os.path.exists('./player'):
 			os.makedirs('./player')
-		filepath = "./player/{}.yml".format(date.today())
+		filepath = "./player/{}.yml".format(datetime.now())
 		with open(filepath,'w') as player_file:
 			yaml.dump(player_data, player_file)
 

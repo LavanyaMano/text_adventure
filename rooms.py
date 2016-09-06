@@ -55,8 +55,8 @@ class Room():
             print("\t".join(i))
 
 
-    def display_maze(self,a_maze):
-        b = a_maze
+    def display_maze(self,dis_maze):
+        b = dis_maze
         print ("Your playing maze is: ")
         for indx, i in enumerate(b):
             for jindx, j in enumerate(i):
@@ -137,7 +137,7 @@ class Room():
                 print("You lose. Exiting the game.")
                 sys.exit()
 
-    def move(self,side,a_maze):
+    def move(self,a_maze,side):
         a=a_maze
         try:
             for indx, i in enumerate(a):
@@ -146,62 +146,71 @@ class Room():
                         if j == "P" :
                             if a[indx][jindx+1]=="E":
                                 self.key()
-                                break
+                                inv.remove("moves")
+                                return a,True
                             elif a[indx][jindx+1] =="M":
                                 a[indx][jindx+1] =="P"
                                 self.monster()
-                                break
+                                inv.remove("moves")
+                                return a,False
                             elif a[indx][jindx+1] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx][jindx+1] = "P"
-                                break
+                                inv.remove("moves")
+                                return a,False
                     elif(side == "l"):
                         if j == "P" :
                             if (jindx-1 <0):
                                 raise IndexError
                             elif a[indx][jindx-1]=="E":
                                 self.key()
-                                break
+                                inv.remove("moves")
+                                return a,True
                             elif a[indx][jindx-1] =="M":
                                 self.monster()
                                 a[indx][jindx-1] =="P"
-                                break
+                                inv.remove("moves")
+                                return a,False
                             elif a[indx][jindx-1] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx][jindx-1] = "P"
-                                break
+                                inv.remove("moves")
+                                return a,False
                     elif(side == "u"):
                         if j == "P" :
                             if (jindx-1 <0):
                                 raise IndexError
                             elif a[indx-1][jindx]=="E":
                                 self.key()
-                                break
+                                inv.remove("moves")
+                                return a,True
                             elif a[indx-1][jindx] =="M":
                                 a[indx-1][jindx] = "P"
                                 self.monster()
-                                break
+                                inv.remove("moves")
+                                return a,False
                             elif a[indx-1][jindx] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx-1][jindx] = "P"
-                                break
+                                inv.remove("moves")
+                                return a,False
                     elif(side == "d"):
-
                         if j == "P" :
                             print(jindx)
                             if a[indx+1][jindx]=="E":
                                 self.key()
-                                break
+                                inv.remove("moves")
+                                return a,True
                             elif a[indx+1][jindx] =="M":
                                 a[indx+1][jindx] =="P"
                                 self.monster()
-                                break
+                                inv.remove("moves")
+                                return a,False
                             elif a[indx+1][jindx] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx+1][jindx] = "P"
-                                break
-            inv.remove("moves")
-            return a
+                                inv.remove("moves")
+                                return a,False
         except IndexError as name:
             print("#"*33)
             print(type(name))
