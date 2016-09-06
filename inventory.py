@@ -1,11 +1,12 @@
 
 class Inventory():
 	"""docstring for Inventory"""
-	def __init__(self, keys=2, weapons=2, moves=10, life_line=3):
+	def __init__(self, keys=2, weapons=2, moves=20, life_line=3, score =0):
 		self.keys= keys
 		self.weapons=weapons
 		self.moves =moves
 		self.life_line=life_line
+		self.score = score
 
 	def add(self, arg):
 		if arg == "keys":
@@ -39,9 +40,6 @@ class Inventory():
 
 	def __str__(self):
 		print("Your inventory \n")
-		print("Key: {} weapons: {} moves: {} life_line: {}".format(self.keys,self.weapons,self.moves,self.life_line))
+		print("Key: {}, weapons: {}, moves: {}, life_line: {}.".format(self.keys,self.weapons,self.moves,self.life_line))
 
-# inv1 = Inventory()
-# var = inv1.add("weapons")
-# print(var)
 

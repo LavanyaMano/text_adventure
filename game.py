@@ -1,13 +1,12 @@
 import os
 import sys
 import copy
-import yaml 
-# from player import get_player_details
+import yaml
+from player import Player
 from rooms import Room
-
-def play_game():
-	print("You can decide the level you want to play. Default level is 0")
-	p_level=int(input("Enter the level you want: "))
+from inventory import Inventory
+inv1=Inventory()
+def play_game(p_level):
 	p_room = Room(p_level)
 
 	print("You are about to play in maze craze level - {}".format(p_level))
@@ -23,26 +22,29 @@ def play_game():
 		p_step= p_room.maze_setup()
 		p_room.display_maze(p_step)
 		while True:
-			print("Moves :\nr - right\nl - left\nu - up\nd - down\nk - keys\nw -weapons\ng -lifeline\n x - exit")
+			print("Moves :r - right\tl - left\nu - up\t\td - down\nk - keys\tw -weapons\tg -lifeline\n x - exit")
 			p_input = input("> ")
-			if p_input == "r":
-				p_step=p_room.move_right(p_step)
+			if p_input == "r" or p_input == "l" or p_input == "u" or p_input == "d":
+				p_stage=p_room.move(p_input,p_step)
 				p_room.display_maze(p_step)
-			elif p_input == "l":
-				p_step=p_room.move_left(p_step)
-				p_room.display_maze(p_step)
-			elif p_input == "u":
-				p_step=p_room.move_up(p_step)
-				p_room.display_maze(p_step)
-			elif p_input == "d":
-				p_step=p_room.move_down(p_step)
-				p_room.display_maze(p_step)
+				# if p_stage:
+				# 	print("Level up.")
+				# 	play_game(p_level+1)
+				# else:
+				# 	p_room.display_maze(p_step)
 			elif p_input == "x":
-				sys.exit()
+				sys.exit(0)
+			elif p_input == "i":
+				print(inv1)
 			else:
 				print("Give correct choice")
-
-
+	elif user == "i":
+		print(inv1)
+	elif user == "x":
+		print("Exiting the game.")
+		sys.exit()
+	else:
+		print("Please enter the right choice.")
 
 
 def main():
@@ -53,12 +55,16 @@ def main():
 	You have got lives, keys, weapons to handle monsters.
 	You have life lines to get genie to help."""
 	print("Welcome to the Maze Craze game")
+	player1 = Player()
+	player1.get_player_details()
+
 	print("Would you like to play this game: Y/N")
 	choice = (input("> ")).lower()
 
-
 	if choice == "y":
-		play_game()
+		print("You can decide the level you want to play. Default level is 1")
+		p_level=int(input("Enter the level you want: "))
+		play_game(p_level)
 	else:
 		print("Exiting the Maze Craze game!")
 		sys.exit(0)

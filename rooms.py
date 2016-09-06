@@ -2,7 +2,7 @@ import math
 import random
 from random import shuffle
 from inventory import Inventory
-import genie
+from genie import Genie
 inv = Inventory()
 genie1= Genie()
 
@@ -41,18 +41,19 @@ class Room():
             temp[i]=l[i]
 
         print(temp)
-        print(shuffle(temp))
-        x=[]
+        y=[]
         for i in range(self.level):
-            x=temp[:self.level]
+            x= temp[:self.level]
             del temp[:self.level]
-            a.append(x)
-        return a
+            y.append(x)
+        return y
 
     
     def result_maze(self,a_maze):
         a = a_maze
-        return a
+        for i in a:
+            print("\t".join(i))
+
 
     def display_maze(self,a_maze):
         b = a_maze
@@ -63,348 +64,151 @@ class Room():
                     pass
                 else:
                     b[indx][jindx] = '-'
-        for i in b:
-            print(" ".join(i))
+        for x in b:
+            print("\t".join(x))
 
+    def key(self):
+        print("You got into the room with exit door.")
+        print("Use your key to exit the maze.")
+        while True:
+            k=input("Enter your choice: ")
+            if k == "k":
+                c = inv.check("keys")
+                if c:
+                    print("You got into exit.")
+                    inv.remove("keys")
+                    inv.add("score")
+                    return True
+                else:
+                    print("You dont have keys to exit. Try life-line.")
+            elif k == "g":
+                c = inv.check("life_line")
+                if c:
+                    print("You got a life line.")
+                    genie1.genie_ask(a)
+                    inv.remove("life_line")
+                else:
+                    print("You dont have life-line.")
+            elif k == "w":
+                c= inv.check("weapons")
+                if c: 
+                    print("You have wasted your weapon.")
+                    inv.remove("weapons")
+                else:
+                    print("You dont have weapons")
+            elif k =="x":
+                print("You lose. Exiting the game.")
+                sys.exit()
+    def monster(self):
+        print("You got into Monster room. Use your weapon to kill the monster.")
+        while True:
+            k=input("> ")
+            if k== "k":
+                c = inv.check("keys")
+                if c:
+                    print("You wasted your key.")
+                    inv.remove("keys")
+                else:
+                    print("You dont have keys. Try life-line.")
+            elif k== "g":
+                c = inv.check("life_line")
+                if c:
+                    print("You got a life line.")
+                    genie1.genie_ask(a)
+                    inv.remove("life_line")
+                else:
+                    print("You dont have life-line.")
+            elif k== "w":
+                c= inv.check("weapons")
+                if c: 
+                    print("You killed the monster")
+                    inv.remove("weapons")
+                    inv.add("score")
+                    break
+                else:
+                    print("You dont have weapons. You lose.")
+                    if inv.check("life_line"):
+                        print("Try life line.")
+                        genie1.genie_ask(a)
+                    else:
+                        print("You lose.")
+                        sys.exit()
+            elif k=="x":
+                print("You lose. Exiting the game.")
+                sys.exit()
 
-    def move_up(self,a_maze):
+    def move(self,side,a_maze):
         a=a_maze
         try:
             for indx, i in enumerate(a):
                 for jindx, j in enumerate(i):
-                    if a[indx-1][jindx1]=="P":
-                        a[indx][jindx] = "-"
-                        a[indx-1][jindx] = "P"
-                        break
+                    if (side == "r"):
+                        if j == "P" :
+                            if a[indx][jindx+1]=="E":
+                                self.key()
+                                break
+                            elif a[indx][jindx+1] =="M":
+                                a[indx][jindx+1] =="P"
+                                self.monster()
+                                break
+                            elif a[indx][jindx+1] == "-":
+                                a[indx][jindx] = "-"
+                                a[indx][jindx+1] = "P"
+                                break
+                    elif(side == "l"):
+                        if j == "P" :
+                            if (jindx-1 <0):
+                                raise IndexError
+                            elif a[indx][jindx-1]=="E":
+                                self.key()
+                                break
+                            elif a[indx][jindx-1] =="M":
+                                self.monster()
+                                a[indx][jindx-1] =="P"
+                                break
+                            elif a[indx][jindx-1] == "-":
+                                a[indx][jindx] = "-"
+                                a[indx][jindx-1] = "P"
+                                break
+                    elif(side == "u"):
+                        if j == "P" :
+                            if (jindx-1 <0):
+                                raise IndexError
+                            elif a[indx-1][jindx]=="E":
+                                self.key()
+                                break
+                            elif a[indx-1][jindx] =="M":
+                                a[indx-1][jindx] = "P"
+                                self.monster()
+                                break
+                            elif a[indx-1][jindx] == "-":
+                                a[indx][jindx] = "-"
+                                a[indx-1][jindx] = "P"
+                                break
+                    elif(side == "d"):
 
-                    elif a[indx-1][jindx]=="E":
-                        print("You got into the room with exit door.")
-                        print("Use your key to exit the maze.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You got into exit.\n Level up.")
-                                    inv.remove("keys")
-                                    break
-                                else:
-                                    print("You dont have keys to exit. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You have wasted your weapon.")
-                                    inv.remove("weapons")
-                                else:
-                                    print("You dont have weapons")
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-
-                    elif a[indx-1][jindx] =="M":
-                        print("You got into Monster room. Use your weapon to kill the monster.")
-                        while True:
-                            k=input("> ")
-                            if k== "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You wasted your key.")
-                                    inv.remove("keys")
-                                else:
-                                    print("You dont have keys. Try life-line.")
-                            elif k== "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k== "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You killed the monster")
-                                    inv.remove("weapons")
-                                    break
-                                else:
-                                    print("You dont have weapons. You lose.")
-                                    if inv.check("life_line"):
-                                        print("Try life line.")
-                                        genie1.genie_ask()
-                                    else:
-                                        print("You lose.")
-                                        sys.exit()
-                            elif k=="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-                    
+                        if j == "P" :
+                            print(jindx)
+                            if a[indx+1][jindx]=="E":
+                                self.key()
+                                break
+                            elif a[indx+1][jindx] =="M":
+                                a[indx+1][jindx] =="P"
+                                self.monster()
+                                break
+                            elif a[indx+1][jindx] == "-":
+                                a[indx][jindx] = "-"
+                                a[indx+1][jindx] = "P"
+                                break
             inv.remove("moves")
             return a
-        except IndexError:
+        except IndexError as name:
+            print("#"*33)
+            print(type(name))
+            print(name.args)
+            print(name)
+
             print("Oops! Cannot move out of the Maze. Move in some other direction")
             return a
-    def move_down(self,a_maze):
-        a=a_maze
-        try:
-            for indx, i in enumerate(a):
-                for jindx, j in enumerate(i):
-                    if a[indx+1][jindx1]=="P":
-                        a[indx][jindx] = "-"
-                        a[indx+1][jindx] = "P"
-                        break
 
-                    elif a[indx+1][jindx]=="E":
-                        print("You got into the room with exit door.")
-                        print("Use your key to exit the maze.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You got into exit.\n Level up.")
-                                    inv.remove("keys")
-                                    break
-                                else:
-                                    print("You dont have keys to exit. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You have wasted your weapon.")
-                                    inv.remove("weapons")
-                                else:
-                                    print("You dont have weapons")
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-
-                    elif a[indx+1][jindx] =="M":
-                        print("You got into Monster room. Use your weapon to kill the monster.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You wasted your key.")
-                                    inv.remove("keys")
-                                else:
-                                    print("You dont have keys. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You killed the monster")
-                                    inv.remove("weapons")
-                                    break
-                                else:
-                                    print("You dont have weapons. You lose.")
-                                    if inv.check("life_line"):
-                                        print("Try life line.")
-                                        genie1.genie_ask()
-                                    else:
-                                        print("You lose.")
-                                        sys.exit()
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-                    
-            inv.remove("moves")
-            return a
-        except IndexError:
-            print("Oops! Cannot move out of the Maze. Move in some other direction")
-            return a
-    def move_left(self,a_maze):
-        a=a_maze
-        try:
-            for indx, i in enumerate(a):
-                for jindx, j in enumerate(i):
-                    if a[indx][jindx-1]=="P":
-                        a[indx][jindx] = "-"
-                        a[indx][jindx-1] = "P"
-                        break
-
-                    elif a[indx][jindx-1]=="E":
-                        print("You got into the room with exit door.")
-                        print("Use your key to exit the maze.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You got into exit.\n Level up.")
-                                    inv.remove("keys")
-                                    break
-                                else:
-                                    print("You dont have keys to exit. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You have wasted your weapon.")
-                                    inv.remove("weapons")
-                                else:
-                                    print("You dont have weapons")
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-
-                    elif a[indx][jindx-1] =="M":
-                        print("You got into Monster room. Use your weapon to kill the monster.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You wasted your key.")
-                                    inv.remove("keys")
-                                else:
-                                    print("You dont have keys. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You killed the monster")
-                                    inv.remove("weapons")
-                                    break
-                                else:
-                                    print("You dont have weapons. You lose.")
-                                    if inv.check("life_line"):
-                                        print("Try life line.")
-                                        genie1.genie_ask()
-                                    else:
-                                        print("You lose.")
-                                        sys.exit()
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-                    
-            inv.remove("moves")
-            return a
-        except IndexError:
-            print("Oops! Cannot move out of the Maze. Move in some other direction")
-            return a
-    def move_right(self,a_maze):
-        a=a_maze
-        try:
-            for indx, i in enumerate(a):
-                for jindx, j in enumerate(i):
-                    if a[indx][jindx+1]=="P":
-                        a[indx][jindx] = "-"
-                        a[indx][jindx+1] = "P"
-                        break
-
-                    elif a[indx][jindx+1]=="E":
-                        print("You got into the room with exit door.")
-                        print("Use your key to exit the maze.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You got into exit.\n Level up.")
-                                    inv.remove("keys")
-                                    break
-                                else:
-                                    print("You dont have keys to exit. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You have wasted your weapon.")
-                                    inv.remove("weapons")
-                                else:
-                                    print("You dont have weapons")
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-
-                    elif a[indx][jindx+1] =="M":
-                        print("You got into Monster room. Use your weapon to kill the monster.")
-                        while True:
-                            k=input("> ")
-                            if k == "k":
-                                c = inv.check("keys")
-                                if c:
-                                    print("You wasted your key.")
-                                    inv.remove("keys")
-                                else:
-                                    print("You dont have keys. Try life-line.")
-                            elif k == "g":
-                                c = inv.check("life_line")
-                                if c:
-                                    print("You got a life line.")
-                                    genie1.genie_ask()
-                                    inv.remove("life_line")
-                                else:
-                                    print("You dont have life-line.")
-                            elif k == "w":
-                                c= inv.check("weapons")
-                                if c: 
-                                    print("You killed the monster")
-                                    inv.remove("weapons")
-                                    break
-                                else:
-                                    print("You dont have weapons. You lose.")
-                                    if inv.check("life_line"):
-                                        print("Try life line.")
-                                        genie1.genie_ask()
-                                    else:
-                                        print("You lose.")
-                                        sys.exit()
-                            elif k =="x":
-                                print("You lose. Exiting the game.")
-                                sys.exit()
-                    
-            inv.remove("moves")
-            return a
-        except IndexError:
-            print("Oops! Cannot move out of the Maze. Move in some other direction")
-            return a
-        
-
-    def call_genie(self):
-        pass
 
