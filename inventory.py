@@ -1,12 +1,12 @@
 
 class Inventory():
 	"""docstring for Inventory"""
-	def __init__(self, keys=2, weapons=2, moves=20, life_line=3, score =0):
+	def __init__(self, keys=2, weapons=5, moves=20, life_line=3):
 		self.keys= keys
 		self.weapons=weapons
 		self.moves =moves
 		self.life_line=life_line
-		self.score = score
+		self.score = 0
 
 	def add(self, arg):
 		if arg == "keys":
@@ -17,6 +17,8 @@ class Inventory():
 			return self.moves+1
 		elif arg == "life_line":
 			return self.life_line+1
+		elif arg == self.score:
+			return self.score+1
 
 	def remove(self, arg):
 		if arg == "keys":

@@ -1,5 +1,7 @@
 import math
+import sys
 import random
+import copy
 from random import shuffle
 from inventory import Inventory
 from genie import Genie
@@ -40,7 +42,7 @@ class Room():
         for i in range(len(l)):
             temp[i]=l[i]
 
-        print(temp)
+        shuffle(temp)
         y=[]
         for i in range(self.level):
             x= temp[:self.level]
@@ -56,7 +58,7 @@ class Room():
 
 
     def display_maze(self,dis_maze):
-        b = dis_maze
+        b = copy.deepcopy(dis_maze)
         print ("Your playing maze is: ")
         for indx, i in enumerate(b):
             for jindx, j in enumerate(i):
@@ -67,11 +69,12 @@ class Room():
         for x in b:
             print("\t".join(x))
 
-    def key(self):
+
+    def key(self,a):
         print("You got into the room with exit door.")
         print("Use your key to exit the maze.")
         while True:
-            k=input("Enter your choice: ")
+            k=input("Enter your choice(use key): ")
             if k == "k":
                 c = inv.check("keys")
                 if c:
@@ -99,10 +102,11 @@ class Room():
             elif k =="x":
                 print("You lose. Exiting the game.")
                 sys.exit()
-    def monster(self):
+    def monster(self,temp_maze):
+        a= copy.deepcopy(temp_maze)
         print("You got into Monster room. Use your weapon to kill the monster.")
         while True:
-            k=input("> ")
+            k=input("Enter yours choice(use weapon): ")
             if k== "k":
                 c = inv.check("keys")
                 if c:
@@ -145,12 +149,15 @@ class Room():
                     if (side == "r"):
                         if j == "P" :
                             if a[indx][jindx+1]=="E":
-                                self.key()
+                                self.key(a)
+                                a[indx][jindx+1] =="P"
+                                inv.remove("moves")
                                 inv.remove("moves")
                                 return a,True
                             elif a[indx][jindx+1] =="M":
+                                self.monster(a)
+                                a[indx][jindx] = "-"
                                 a[indx][jindx+1] =="P"
-                                self.monster()
                                 inv.remove("moves")
                                 return a,False
                             elif a[indx][jindx+1] == "-":
@@ -163,11 +170,14 @@ class Room():
                             if (jindx-1 <0):
                                 raise IndexError
                             elif a[indx][jindx-1]=="E":
-                                self.key()
+                                self.key(a)
+                                a[indx][jindx] = "-"
+                                a[indx][jindx-1] =="P"
                                 inv.remove("moves")
                                 return a,True
                             elif a[indx][jindx-1] =="M":
-                                self.monster()
+                                self.monster(a)
+                                a[indx][jindx] = "-"
                                 a[indx][jindx-1] =="P"
                                 inv.remove("moves")
                                 return a,False
@@ -181,12 +191,15 @@ class Room():
                             if (jindx-1 <0):
                                 raise IndexError
                             elif a[indx-1][jindx]=="E":
-                                self.key()
+                                self.key(a)
+                                a[indx][jindx] = "-"
+                                a[indx-1][jindx] = "P"
                                 inv.remove("moves")
                                 return a,True
                             elif a[indx-1][jindx] =="M":
+                                self.monster(a)
+                                a[indx][jindx] = "-"
                                 a[indx-1][jindx] = "P"
-                                self.monster()
                                 inv.remove("moves")
                                 return a,False
                             elif a[indx-1][jindx] == "-":
@@ -196,14 +209,16 @@ class Room():
                                 return a,False
                     elif(side == "d"):
                         if j == "P" :
-                            print(jindx)
                             if a[indx+1][jindx]=="E":
-                                self.key()
+                                self.key(a)
+                                a[indx][jindx] = "-"
+                                a[indx+1][jindx] =="P"
                                 inv.remove("moves")
                                 return a,True
                             elif a[indx+1][jindx] =="M":
+                                self.monster(a)
+                                a[indx][jindx] = "-"
                                 a[indx+1][jindx] =="P"
-                                self.monster()
                                 inv.remove("moves")
                                 return a,False
                             elif a[indx+1][jindx] == "-":
@@ -212,12 +227,7 @@ class Room():
                                 inv.remove("moves")
                                 return a,False
         except IndexError as name:
-            print("#"*33)
-            print(type(name))
-            print(name.args)
-            print(name)
-
             print("Oops! Cannot move out of the Maze. Move in some other direction")
-            return a
+            return a,False
 
 

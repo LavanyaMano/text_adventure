@@ -20,20 +20,15 @@ def play_game(p_level):
 
 	if user == "e":
 		p_step= p_room.maze_setup()
-		print("Result maze")
-		p_room.result_maze(p_step)
-		print("*"*50)
 		p_room.display_maze(p_step)
-		print("Result maze")
-		p_room.result_maze(p_step)
 		print("*"*50)
 		while True:
 			print("Moves :r - right\tl - left\tu - up\t\td - down\nk - keys\tw -weapons\tg -lifeline\n x - exit")
 			p_input = input("> ")
 			if p_input == "r" or p_input == "l" or p_input == "u" or p_input == "d":
-				p_stage=p_room.move(p_step,p_input)
-				p_room.display_maze(p_stage[0])
-				if p_stage[1]:
+				p_step,p_stage=p_room.move(p_step,p_input)
+				if p_stage:
+					os.system("clear")
 					print("Level up.")
 					play_game(p_level+1)
 				else:

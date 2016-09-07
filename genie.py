@@ -1,5 +1,6 @@
 import yaml
 import sys
+import copy
 import random 
 from inventory import Inventory
 inv =  Inventory()
@@ -16,8 +17,8 @@ class Genie(object):
     def genie_ask(self,a_maze):
         a=a_maze
         user=input("Genie: Are you ready to answer my question? Y/N >  ")
-        if user=="Y":
-            question = random.choice(puzzle_list)
+        if user=="y":
+            question = random.choice(self.puzzle_list)
             print(question["puzzle"])
             print(question["options"])
             answer=question["answer"]
@@ -28,15 +29,16 @@ class Genie(object):
             else:
                 print("Wrong answer")
 
+
     def genie_gift(self,a_maze):
         a = random.randrange(6)
         if a == 1:
             print(" Excellent.. I am impressed...")
             print("I will show you the exit")
-            b=a_maze
+            b=copy.deepcopy(a_maze)
             for indx, i in enumerate(b):
                 for jindx, j in enumerate(i):
-                    if j == "P" and j == "E":
+                    if j == "P" or j == "E":
                         pass
                     else:
                         b[indx][jindx] = '-'
@@ -46,10 +48,10 @@ class Genie(object):
 
         elif a == 2:
             print("Great.. I will show you where the Monsters are hidding.")
-            b=a_maze
+            b=copy.deepcopy(a_maze)
             for indx, i in enumerate(b):
                 for jindx, j in enumerate(i):
-                    if j == "P" and j == "M":
+                    if j == "P" or j == "M":
                         pass
                     else:
                         b[indx][jindx] = '-'
@@ -63,13 +65,17 @@ class Genie(object):
 
         elif a == 4:
             print("I will give you two extra weapons")
-            inv.add(weapons=2)
+            inv.add("weapons")
+            inv.add("weapons")
 
         elif a == 5:
             print("I will give you 5 extra moves")
-            inv.add(moves = 5)
+            for x in range(5):
+                inv.add("moves")
   
         else:
             print("Sorry. I dont have any gift for you.")
-        
+ 
+
+
 
