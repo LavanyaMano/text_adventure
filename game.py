@@ -15,6 +15,7 @@ def play_game(p_level):
 	maze_disp = p_room.maze_size()
 	for i in maze_disp:
 		print("\t".join(i))
+	print("*"*50)
 	print ("Press e for entering the maze")
 	print ("Press i for checking the inventory")
 	print("Press x for exiting the game")
@@ -24,7 +25,7 @@ def play_game(p_level):
 		if user == "e":
 			p_step= p_room.maze_setup()
 			p_room.display_maze(p_step)
-			print("`"*50)
+			
 			while True:
 				print("\033[3;32;40m Your score is {} \033[m".format(my_inventory.score))
 				print("."*80)
@@ -42,6 +43,7 @@ def play_game(p_level):
 						p_level=p_level+1
 						play_game(p_level)
 					else:
+						os.system("clear")
 						p_room.display_maze(p_step)
 				elif p_input == "x":
 					sys.exit(0)

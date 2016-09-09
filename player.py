@@ -18,29 +18,30 @@ class Player():
 	def get_player_details(self):
 		self.player_name = input("Enter your name: ")
 		self.player_age = input("Enter your age: ")
-		print(self.player_name+'-----'+self.player_age)
-		
 
 
 	def player_log(self):
 		if not os.path.exists('./player'):
 			os.makedirs('./player')
 
-		if not os.path.exists('./player/self.player_name'):
+		filepath = "./player/{}.yml".format(self.player_name)
+		if not os.path.exists(filepath):
 			player_data = {"Name":self.player_name,
 						"Age":self.player_age,
 						"Date":self.play_date,
 						"Level Completed":self.play_level,
 						"Score":self.player_score}
 			existing_data = player_data
-			filepath = "./player/{}.yml".format(self.player_name)
+			
 		else:
-			player_data = {"Date":self.play_date,
+			existing_data = {"Date":self.play_date,
 							"Level Completed":self.play_level,
 							"Score": self.player_score}
-			with open(filepath,'w+') as player_file:
-				existing_data =yaml.load('./player/self.player_name', player_file)
-			existing_data.append(player_data)
+			# with open(filepath,'w+') as player_file:
+			# 	existing_data =yaml.load(player_file)
+			# existing_data.append(player_data)
 
-		with open(filepath,'w') as player_file:
+		with open(filepath,'a') as player_file:
+			print("****EXISTING DATA****")
+			print(existing_data)
 			yaml.dump(existing_data, player_file,default_flow_style=False)
