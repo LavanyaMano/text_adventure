@@ -1,6 +1,6 @@
 - puzzle: Suppose today is Thursday. What day of the week will it be 19 days from today?
   answer: a
-  options: a.Tuesday,b.Monday,c.Saturday
+  options: a.Tuesday,b.Monday,c.Saturday,d.Thursday
 - puzzle: What is the factorial of 5?
   answer: d
   options: a.126,b.102,c.130,d.120
@@ -13,3 +13,9 @@
 - puzzle: if(False or True and not False)
   answer: d
   options: a. [], b. False, c. 0, d.True
+- puzzle: Mary's mum has four children. The first child is called April. The second May. The third June. What is the name of the fourth child?
+  answer: a
+  options: a. Mary, b. April, c. July, d.January
+- puzzle: A bat and ball cost $1.10. The bat costs one dollar more than the ball. How much does the ball cost?
+  answer: d
+  options: a.1 cent, b. 1 $, c. 10 cents, d.5 cents

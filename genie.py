@@ -2,8 +2,8 @@ import yaml
 import sys
 import copy
 import random 
-from inventory import Inventory
-inv =  Inventory()
+from inventory import my_inventory
+
 
 
 class Genie(object):
@@ -60,18 +60,18 @@ class Genie(object):
             
         elif a == 3:
             print("I will give you two extra keys")
-            inv.add("keys")
-            inv.add("keys")
+            my_inventory.add("keys")
+            my_inventory.add("keys")
 
         elif a == 4:
             print("I will give you two extra weapons")
-            inv.add("weapons")
-            inv.add("weapons")
+            my_inventory.add("weapons")
+            my_inventory.add("weapons")
 
         elif a == 5:
             print("I will give you 5 extra moves")
             for x in range(5):
-                inv.add("moves")
+                my_inventory.add("moves")
   
         else:
             print("Sorry. I dont have any gift for you.")
