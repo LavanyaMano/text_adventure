@@ -34,7 +34,8 @@ class Player():
 			existing_data = player_data
 			
 		else:
-			existing_data = {"Date":self.play_date,
+			existing_data = {"\n"
+							"Date":self.play_date,
 							"Level Completed":self.play_level,
 							"Score": self.player_score}
 			# with open(filepath,'w+') as player_file:
@@ -42,6 +43,4 @@ class Player():
 			# existing_data.append(player_data)
 
 		with open(filepath,'a') as player_file:
-			print("****EXISTING DATA****")
-			print(existing_data)
 			yaml.dump(existing_data, player_file,default_flow_style=False)

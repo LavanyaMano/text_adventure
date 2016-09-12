@@ -69,7 +69,8 @@ class Room():
                     b[indx][jindx] = '-'
 
         for x in b:
-            print("\033[3;32;44m "+"\t".join(x)+"\033[m ")
+            print("\t\t\033[1;32;44m"+"\t".join(x)+"\033[m    ")
+
 
 
     def key(self,a):
@@ -88,7 +89,12 @@ class Room():
                 elif my_inventory.check("life_line"):
                     print("You dont have keys to exit. Try life-line.")
                 else:
-                    print("You lose.\n Existing the game")
+                    print("You lose.")
+                    print  ("\t\t\t"+"___   __   _  _  ____     __   _  _  ____  ____ ")
+                    print ("\t\t\t"+"/ __) / _\ ( \/ )(  __)   /  \ / )( \(  __)(  _ \\")
+                    print("\t\t\t"+"( (_ \/    \/ \/ \ ) _)   (  O )\ \/ / ) _)  )   /")
+                    print ("\t\t\t"+"\___/\_/\_/\_)(_/(____)   \__/  \__/ (____)(__\_)")
+
                     sys.exit()
             elif k == "g":
                 c = my_inventory.check("life_line")
@@ -144,10 +150,10 @@ class Room():
                         genie1.genie_ask(a)
                     else:
                         print("You lose.")
-                        print  ("___   __   _  _  ____     __   _  _  ____  ____ ")
-                        print ("/ __) / _\ ( \/ )(  __)   /  \ / )( \(  __)(  _ \\")
-                        print("( (_ \/    \/ \/ \ ) _)   (  O )\ \/ / ) _)  )   /")
-                        print ("\___/\_/\_/\_)(_/(____)   \__/  \__/ (____)(__\_)")
+                        print  ("\t\t\t"+"___   __   _  _  ____     __   _  _  ____  ____ ")
+                        print ("\t\t\t"+"/ __) / _\ ( \/ )(  __)   /  \ / )( \(  __)(  _ \\")
+                        print("\t\t\t"+"( (_ \/    \/ \/ \ ) _)   (  O )\ \/ / ) _)  )   /")
+                        print ("\t\t\t"+"\___/\_/\_/\_)(_/(____)   \__/  \__/ (____)(__\_)")
                         sys.exit()
             elif k=="x":
                 print("You lose. Exiting the game.")
@@ -166,17 +172,20 @@ class Room():
                                 a[indx][jindx+1] ="P"
                                 my_inventory.remove("moves")
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,True
                             elif a[indx][jindx+1] =="M":
                                 self.monster(a)
                                 a[indx][jindx] = "-"
                                 a[indx][jindx+1] ="P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                             elif a[indx][jindx+1] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx][jindx+1] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                     elif(side == "l"):
                         if j == "P" :
@@ -187,17 +196,20 @@ class Room():
                                 a[indx][jindx] = "-"
                                 a[indx][jindx-1] ="P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,True
                             elif a[indx][jindx-1] =="M":
                                 self.monster(a)
                                 a[indx][jindx] = "-"
                                 a[indx][jindx-1] ="P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                             elif a[indx][jindx-1] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx][jindx-1] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                     elif(side == "u"):
                         if j == "P" :
@@ -208,17 +220,20 @@ class Room():
                                 a[indx][jindx] = "-"
                                 a[indx-1][jindx] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,True
                             elif a[indx-1][jindx] =="M":
                                 self.monster(a)
                                 a[indx][jindx] = "-"
                                 a[indx-1][jindx] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                             elif a[indx-1][jindx] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx-1][jindx] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                     elif side == "d":
                         if j == "P" :
@@ -227,17 +242,20 @@ class Room():
                                 a[indx][jindx] = "-"
                                 a[indx+1][jindx] ="P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,True
                             elif a[indx+1][jindx] =="M":
                                 self.monster(a)
                                 a[indx][jindx] = "-"
                                 a[indx+1][jindx] ="P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
                             elif a[indx+1][jindx] == "-":
                                 a[indx][jindx] = "-"
                                 a[indx+1][jindx] = "P"
                                 my_inventory.remove("moves")
+                                os.system("clear")
                                 return a,False
         except IndexError as name:
             print("Oops! Cannot move out of the Maze. Move in some other direction")

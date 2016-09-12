@@ -14,12 +14,13 @@ def play_game(p_level):
 	print("You are about to play in maze craze level - {}".format(p_level))
 	maze_disp = p_room.maze_size()
 	for i in maze_disp:
-		print("\t".join(i))
-	print("*"*50)
+		print("\t\t\t"+"\t".join(i))
+		
+	print("."*80)
 	print ("Press e for entering the maze")
 	print ("Press i for checking the inventory")
 	print("Press x for exiting the game")
-	
+
 	while my_inventory.moves>0:
 		user = input(" >  ")
 		if user == "e":
@@ -27,7 +28,8 @@ def play_game(p_level):
 			p_room.display_maze(p_step)
 			
 			while True:
-				print("\033[3;32;40m Your score is {} \033[m".format(my_inventory.score))
+				print("\n")
+				print("                   \033[3;32;40m Your score is {} \033[m".format(my_inventory.score))
 				print("."*80)
 				print("Moves :r - right\tl - left\tu - up\td - down \t x - exit")
 				print("."*80)
@@ -43,7 +45,6 @@ def play_game(p_level):
 						p_level=p_level+1
 						play_game(p_level)
 					else:
-						os.system("clear")
 						p_room.display_maze(p_step)
 				elif p_input == "x":
 					sys.exit(0)
@@ -76,6 +77,7 @@ def main():
 
 	player1.get_player_details()
 	player1.player_log()
+	os.system("clear")
 	print("Would you like to play this game: Y/N")
 	choice = (input("> ")).lower()
 
